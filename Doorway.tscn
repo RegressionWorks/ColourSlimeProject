@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Doorway.gd" type="Script" id=1]
+[ext_resource path="res://messages.tres" type="DynamicFont" id=2]
+
+[node name="Doorway" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( -930, -260 )
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( 885.135, 248.175, 885.135, 188.175, 905.135, 158.175, 935.135, 128.175, 965.135, 158.175, 985.135, 188.175, 985.135, 258.175, 885.135, 258.175 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( -930, -260 )
+polygon = PoolVector2Array( 890, 190, 910, 160, 930, 140, 940, 140, 960, 160, 980, 190, 980, 260, 890, 260 )
+
+[node name="TextBubble" type="Polygon2D" parent="."]
+polygon = PoolVector2Array( 30, -70, 40, -100, 30, -120, 40, -140, 120, -140, 130, -130, 130, -110, 120, -100, 60, -100 )
+
+[node name="Label" type="Label" parent="TextBubble"]
+margin_left = 40.0
+margin_top = -130.0
+margin_right = 123.0
+margin_bottom = -109.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0.4, 0.188235, 0.164706, 1 )
+text = "Press W"
+percent_visible = -0.166667
+[connection signal="body_entered" from="." to="." method="_on_Doorway_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_Doorway_body_exited"]

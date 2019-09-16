@@ -1,0 +1,123 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://test.gd" type="Script" id=1]
+[ext_resource path="res://Doorway.tscn" type="PackedScene" id=2]
+[ext_resource path="res://collectible.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Wall.gd" type="Script" id=4]
+[ext_resource path="res://Spawner.gd" type="Script" id=5]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Goo_Particle.tscn" type="PackedScene" id=7]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 0.997971, 0.979667 )
+
+[node name="Node2D" type="Node2D"]
+position = Vector2( 24.8654, 11.8252 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Doorway" parent="." instance=ExtResource( 2 )]
+editor/display_folded = true
+position = Vector2( 975.135, 258.175 )
+
+[node name="collectible" parent="." instance=ExtResource( 3 )]
+position = Vector2( 531.625, 158.175 )
+
+[node name="Platform" type="RigidBody2D" parent="."]
+position = Vector2( 639.944, 325.246 )
+scale = Vector2( 200, 10 )
+collision_layer = 3
+collision_mask = 3
+mode = 1
+
+[node name="Polygon2D" type="Polygon2D" parent="Platform"]
+polygon = PoolVector2Array( -1, -1, 1, -1, 1, 1, -1, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Platform2" type="RigidBody2D" parent="."]
+position = Vector2( 840.498, 264.304 )
+scale = Vector2( 200, 10 )
+collision_layer = 3
+collision_mask = 3
+mode = 1
+
+[node name="Polygon2D" type="Polygon2D" parent="Platform2"]
+polygon = PoolVector2Array( -1, -1, 1, -1, 1, 1, -1, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform2"]
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RedObstacle" type="RigidBody2D" parent="." groups=[
+"RedObstacle",
+]]
+position = Vector2( 369.418, 328.404 )
+scale = Vector2( 10, 200 )
+mode = 1
+contact_monitor = true
+script = ExtResource( 4 )
+
+[node name="Polygon2D" type="Polygon2D" parent="RedObstacle"]
+color = Color( 0.54902, 0.101961, 0.101961, 1 )
+polygon = PoolVector2Array( -1, -1, 1, -1, 1, 1, -1, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RedObstacle"]
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RedObstacle2" type="RigidBody2D" parent="." groups=[
+"RedObstacle",
+]]
+position = Vector2( 335.135, 128.404 )
+scale = Vector2( 10, 200 )
+mode = 1
+contact_monitor = true
+script = ExtResource( 4 )
+
+[node name="Polygon2D" type="Polygon2D" parent="RedObstacle2"]
+color = Color( 0.54902, 0.101961, 0.101961, 1 )
+polygon = PoolVector2Array( -1, -1, 1, -1, 1, 1, -1, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RedObstacle2"]
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Spawner" type="Node2D" parent="."]
+position = Vector2( 815.135, 148.175 )
+script = ExtResource( 5 )
+
+[node name="Timer" type="Timer" parent="Spawner"]
+autostart = true
+
+[node name="HUD" parent="." instance=ExtResource( 6 )]
+
+[node name="player" parent="." instance=ExtResource( 7 )]
+position = Vector2( 655.135, 218.175 )
+[connection signal="orb_fired" from="." to="collectible" method="_on_Node2D_orb_fired"]
+[connection signal="breakWall" from="collectible" to="RedObstacle" method="_on_collectible_breakWall"]
+[connection signal="timeout" from="Spawner/Timer" to="Spawner" method="_on_Timer_timeout"]
